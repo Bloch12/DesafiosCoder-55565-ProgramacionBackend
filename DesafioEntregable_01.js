@@ -23,7 +23,7 @@ class ProductManager{
             thumbnail,
             code,
             stock
-        }
+        };
         product.id = this.products.length + 1;
         this.products.push(product);
     }   
