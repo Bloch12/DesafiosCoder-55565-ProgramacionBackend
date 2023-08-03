@@ -31,6 +31,7 @@ class ProductManager{
         }
         
         this.products.push(product);
+        console.log(`The product ${title} was added successfully`);
     }   
     
     getProducts(){
