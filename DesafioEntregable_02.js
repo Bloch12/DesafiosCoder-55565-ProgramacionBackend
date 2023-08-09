@@ -66,9 +66,19 @@ class ProductManager{
         }
         if(typeof value === typeof product){
             for(let key in value){
-                product[key] = value[key];
+                if (product[key] && key !== "id"){
+                    product[key] = value[key];
+                }
             }
         }else{
+            if(!product[field]){
+                console.log(`Error: there is no field ${field} in the product with the id ${id}`);
+                return;
+            }
+            if(field === "id"){
+                console.log(`Error: the field ${field} cannot be modified`);
+                return;
+            }
             product[field] = value;
         }    
         fs.writeFileSync(this.#path,JSON.stringify(products,null,"\t"));
@@ -82,6 +92,7 @@ class ProductManager{
 }
 
 
+//pruebas
 let productManager = new ProductManager();
 console.log(productManager.getProducts());
 productManager.addProduct("producto prueba","Este es un producto prueba",200,"Sin imagen","abc123",25);
