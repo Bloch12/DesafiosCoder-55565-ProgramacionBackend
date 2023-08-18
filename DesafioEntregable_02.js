@@ -5,7 +5,7 @@ const { get } = require("http");
 class ProductManager{
     #path;
     constructor(){
-        this.#path = "./Files/products.json"
+        this.#path = __dirname + "/Files/products.json";
     }
 
     addProduct(title,description,price,thumbnail,code,stock){
@@ -49,9 +49,8 @@ class ProductManager{
     }
 
     getProductById(id){
-    let product = this.getProducts().find(product => product.id === id);
+       let product = this.getProducts().find(product => product.id === id);
        if(!product){
-            console.log(`Error: there is no product with the id ${id}`);
             return;
         }
         return product;
@@ -91,8 +90,8 @@ class ProductManager{
     }
 }
 
-
-//pruebas
+module.exports = ProductManager;
+/** prueba
 let productManager = new ProductManager();
 console.log(productManager.getProducts());
 productManager.addProduct("producto prueba","Este es un producto prueba",200,"Sin imagen","abc123",25);
@@ -112,5 +111,5 @@ productManager.updateProduct(2,product);
 console.log(productManager.getProducts());
 productManager.deleteProduct(1);
 
-
+*/
 
