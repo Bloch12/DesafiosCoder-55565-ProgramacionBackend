@@ -3,7 +3,10 @@ import {ProductManager}  from "../Managers/productManager.js";
 export const router = Router();
 import {io} from "../app.js";
 
+
+
 const productManager = new ProductManager();
+
 
 router.get("/",(req,res) => {
     res.setHeader("Content-Type","application/json");
@@ -37,6 +40,7 @@ router.get("/:pid",(req,res) => {
 });
 
 router.post("/",(req,res) => {
+    console.log(req.body);
     let {title,description,price,thumbnail,code,stock} = req.body;
     console.log(req.body);
     let message = productManager.addProduct(title,description,price,thumbnail,code,stock);
@@ -72,4 +76,3 @@ router.delete("/:pid",(req,res) => {
     io.emit('products-update', {products: productManager.getProducts(), msg: `Product with id ${pid} updated.`});
     res.status(200).json({message: "product deleted successfully"});
 });
-
