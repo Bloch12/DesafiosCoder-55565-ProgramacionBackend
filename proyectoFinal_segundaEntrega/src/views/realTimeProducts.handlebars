@@ -1,0 +1,21 @@
+<h1>Productos disponibles (en tiempo real):</h1>
+<form id = "Productform"> 
+    
+<ol id="products">
+    {{#each products}}
+        <li>
+            <ul>
+                <li>Nombre: {{this.title}}</li>
+                <li>Precio: {{this.price}}</li>
+                <li>Código: {{this.code}}</li>
+                <li>Descripción: {{this.description}}</li>
+                <li>Stock: {{this.stock}}</li>
+                <li>Category: {{this.category}} </li>
+            </ul>
+            <br>
+        </li>
+    {{/each}}
+</ol>
+
+<script src="socket.io/socket.io.js"></script>
+<script src="assets/scripts/realTimeProducts.js"></script>

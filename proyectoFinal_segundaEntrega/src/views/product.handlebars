@@ -1,0 +1,25 @@
+<h1>{{title}}</h1>
+<ul>
+    <li>Precio: {{price}}</li>
+    <li>Código: {{code}}</li>
+    <li>Categoría: {{category}}</li>
+    <li>Descripción: {{description}}</li>
+    <li>Stock: {{stock}}</li>
+</ul>
+
+<button id="addCartbtt" data-product-id="{{this.id}}">Añadir al carrito</button>
+<a href="/carts/65161728a82873f1775ab981">Click aqui para ver carrito</a>
+
+<script>
+    const btnAddToCart = document.getElementById('addCartbtt');
+    btnAddToCart.addEventListener('click', function() {
+        let id = this.getAttribute("data-product-id");
+        fetch(`/api/carts/65161728a82873f1775ab981/products/${id}`, {
+            method: 'POST'
+        })
+        .then(res => res.json())
+        .then(data => {
+            console.log(data);
+        })
+    })
+</script>

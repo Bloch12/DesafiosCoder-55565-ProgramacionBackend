@@ -1,0 +1,38 @@
+[
+	{
+		"title": "product1",
+		"description": "description1",
+		"price": 1,
+		"status": 1,
+		"code": "thumbnail1",
+		"stock": "code1",
+		"id": 1
+	},
+	{
+		"title": "product2",
+		"description": "description2",
+		"price": 2,
+		"status": 2,
+		"code": "thumbnail2",
+		"stock": "code2",
+		"id": 2
+	},
+	{
+		"title": "asd",
+		"description": "asd",
+		"price": 100,
+		"status": 2,
+		"code": "asd",
+		"stock": "asd",
+		"id": 3
+	},
+	{
+		"title": "product4",
+		"description": "description1",
+		"price": 1,
+		"status": 1,
+		"code": "thumbnail3",
+		"stock": "code4",
+		"id": 4
+	}
+]
