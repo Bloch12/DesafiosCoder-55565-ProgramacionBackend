@@ -23,8 +23,9 @@ socket.on("products-update",data=>{
     });
 });
 
-document.getElementById("botoncito").addEventListener('submit',e=>{
+document.getElementById("btt").addEventListener('submit',e=>{
 	e.preventDefault();
+	console.log('submit');
 	const title = document.getElementById('productName').value;
 	const price = document.getElementById('price').value;
 	const code = document.getElementById('code').value;
@@ -48,5 +49,6 @@ document.getElementById("botoncito").addEventListener('submit',e=>{
 		},
 		body: JSON.stringify(product)
 	})
+	console.log(product);
 });
 

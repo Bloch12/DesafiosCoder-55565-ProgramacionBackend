@@ -4,6 +4,22 @@ import { cartModel } from "../dao/models/cart.model.js";
 import mongoose from "mongoose";
 export const router = Router();
 
+const auth=(req, res, next)=>{
+    if(req.session.user){
+        next()
+    }else{
+        return res.redirect('/login')
+    }
+}
+
+const auth2=(req, res, next)=>{
+    if(req.session.user){
+        return res.redirect('/products')
+    }else{
+        next()
+    }
+}
+
 router.get("/home", async(req,res) => {
     res.setHeader("Content-Type","text/html");
     const products = await productModel.find();
@@ -21,7 +37,7 @@ router.get('/realtimeproducts', async(req,res) => {
     });
 });
 
-router.get("/products",async(req,res) => {
+router.get("/products",auth,async(req,res) => {
     res.setHeader("Content-Type","text/html");
     let {limit,page,query,sort} = req.query;
     
@@ -69,7 +85,8 @@ router.get("/products",async(req,res) => {
         firstPage: firstLink,
         lastPage: lastLink,
         limit: limit,
-        page
+        page,
+        userName: req.session.user.name
     });
 
 });
@@ -126,5 +143,23 @@ router.get("/carts/:cid",async(req,res) => {
         res.status(500).json({error:'unexpeted Error', detalle:error.message})
     }
 });
+
+router.get("/login",auth2,async(req,res) => {
+    res.setHeader("Content-Type","text/html");
+    res.status(200).render("login",{title: "Login"});
+});
+
+router.get("/registro",auth2,async(req,res) => {
+    res.setHeader("Content-Type","text/html");
+    res.status(200).render("registro",{title: "Registro"});
+}
+);
+
+router.get("/perfil",auth,async(req,res) => {
+    res.setHeader("Content-Type","text/html");
+    res.status(200).render("perfil",{title: "Perfil", userName: req.session.user.name, rol: req.session.user.role, email: req.session.user.email});
+});
+
+
 
 

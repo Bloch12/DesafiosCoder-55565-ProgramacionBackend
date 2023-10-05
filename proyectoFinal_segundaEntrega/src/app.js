@@ -3,14 +3,29 @@ import {router as productsRouter} from "./routers/products.router.js";
 import {router as cartsRouter} from "./routers/carts.router.js";
 import {router as viewsRouter} from "./routers/views.router.js";
 import {router as chatRouter, chatSocket} from './routers/chat.router.js';
+import {router as sessionsRouter} from './routers/sessions.router.js';
 import handlebars from 'express-handlebars';
 import __dirname from './util.js';
 import {Server} from 'socket.io'
 import mongoose, { mongo } from 'mongoose';
+import session from 'express-session';
+import MongoStore from 'connect-mongo';
 
 
 const app = express();
 const PORT = 8080;
+const key = "palabraSecreta";
+
+app.use(session({
+    store: MongoStore.create({
+        mongoUrl: 'mongodb+srv://user:123@ecomerce.37i6wvl.mongodb.net/?retryWrites=true&w=majority&appName=AtlasApp',
+        mongoOptions: {useNewUrlParser: true, useUnifiedTopology: true},
+        ttl: 3600
+    }),
+    secret: key,
+    resave: true,
+    saveUninitialized: true
+}));
 
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
@@ -25,6 +40,7 @@ app.set("view engine", "handlebars");
 app.use("/api/products",productsRouter);
 app.use("/api/carts",cartsRouter);
 app.use("/chat",chatRouter);
+app.use("/api/sessions",sessionsRouter);
 app.use("/", viewsRouter);
 
 app.get('*', (req, res) => {
