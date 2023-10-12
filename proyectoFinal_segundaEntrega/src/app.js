@@ -10,10 +10,11 @@ import {Server} from 'socket.io'
 import mongoose, { mongo } from 'mongoose';
 import session from 'express-session';
 import MongoStore from 'connect-mongo';
+import { inicializarPassport} from './config/passport.config.js'
 
-
-const app = express();
 const PORT = 8080;
+const app = express();
+
 const key = "palabraSecreta";
 
 app.use(session({
@@ -26,6 +27,10 @@ app.use(session({
     resave: true,
     saveUninitialized: true
 }));
+
+inicializarPassport();
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
