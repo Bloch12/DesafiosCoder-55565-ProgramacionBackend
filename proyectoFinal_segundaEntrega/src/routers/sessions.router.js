@@ -31,25 +31,30 @@ router.get('/errorGithub',(req,res)=>{
 });
 
 router.post('/registro',passport.authenticate('registro',{failureRedirect:"api/session/errorRegistro"}), async (req, res) => {
-    let {name, email, password,role} = req.body;
+    let {first_name,last_name,age, email, password,role} = req.body;
     res.redirect('/login?usuarioCreado=${email}');
 
 });
 
-router.post('/login',passport.authenticate('login',{failureRedirect:'/api/sessions/errorLogin'})) ,async (req, res) => {
+router.post('/login',passport.authenticate('login',{failureRedirect:'/api/sessions/errorLogin'}) ,async (req, res) => {
     const user = req.user;
     delete user.password;
     req.session.user = user;
     res.redirect("/products");
 
-};
+});
 
 router.get('/github', passport.authenticate('github',{scope: ["user: email"]}),(req,res)=>{})
 
 router.get('/callbackGithub',passport.authenticate('github',{failureRedirect:'/api/sessions/errorGithub'}),async (req,res)=>{
     console.log(req.user);
-    req.session.user = user;
+    req.session.user = req.user;
     res.redirect('/products');
+});
+
+this.get('/current', (req, res) => {
+    res.setHeader('Content-Type', 'application/json');
+    res.status(200).json({user: req.session.user});
 });
 
 

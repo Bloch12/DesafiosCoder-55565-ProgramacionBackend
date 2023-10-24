@@ -16,15 +16,15 @@ export const inicializarPassport = () => {
         },
         async (req, username, password, done) => {
             try{
-                let {name, email, password,role} = req.body;
-                if(!name || !email || !password)
+                let {first_name,last_name,age, email, password,role} = req.body;
+                if(!first_name || !last_name || age || !email || !password)
                     return done(null, false, {message: "Error - Invalid body format"});
                 let exist = await usersModel.findOne({email});
                 if(exist)
                     return done(null, false, {message: "Error - Email already exist"});
                 password = createPassword(password);
                 
-                const user = await usersModel.create({name, email, password,role});
+                const user = await usersModel.create({first_name,last_name,age, email, password,role});
                 return done(null, user);
             }catch(err){
                 return done(err);
@@ -36,14 +36,16 @@ export const inicializarPassport = () => {
         {
             clientID: 'Iv1.15cd63028aefa345', 
             clientSecret: 'c4ac10172d133dfe49290c98a3f0430531bac2a2',
-            callbackURL: 'http://localhost:3000/api/sessions/callbackGithub'
+            callbackURL: 'http://localhost:8080/api/sessions/callbackGithub'
         },
         async(token, tokenRefresh, profile, done)=>{
             try {
                 let user=await usersModel.findOne({email:profile._json.email})
                     if(!user){
                         let newUser={
-                            name: profile._json.name,
+                            first_name: profile._json.name,
+                            last_name: "",
+                            age: 18,
                             email: profile._json.email,
                             password: ""
                         }
