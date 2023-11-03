@@ -1,5 +1,5 @@
 import fs from 'fs';
-import { ProductManager } from './productManager.js';
+import { ProductManager } from './productFsDAO.js';
 import path from 'path';
 import  __dirname from '../util.js';
 

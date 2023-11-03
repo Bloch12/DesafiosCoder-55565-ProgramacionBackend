@@ -2,7 +2,6 @@ import express from "express";
 import {router as productsRouter} from "./routers/products.router.js";
 import {router as cartsRouter} from "./routers/carts.router.js";
 import {router as viewsRouter} from "./routers/views.router.js";
-import {router as chatRouter, chatSocket} from './routers/chat.router.js';
 import {router as sessionsRouter} from './routers/sessions.router.js';
 import handlebars from 'express-handlebars';
 import __dirname from './util.js';
@@ -12,19 +11,20 @@ import session from 'express-session';
 import MongoStore from 'connect-mongo';
 import passport from 'passport';
 import { inicializarPassport} from './config/passport.config.js'
+import { config } from './config/dotenv.config.js';
 
-const PORT = 8080;
+const PORT = config.PORT;
+
 const app = express();
 
-const key = "palabraSecreta";
 
 app.use(session({
     store: MongoStore.create({
-        mongoUrl: 'mongodb+srv://user:123@ecomerce.37i6wvl.mongodb.net/?retryWrites=true&w=majority&appName=AtlasApp',
+        mongoUrl: config.MONGO_URL,
         mongoOptions: {useNewUrlParser: true, useUnifiedTopology: true},
         ttl: 3600
     }),
-    secret: key,
+    secret: config.PRIVATE_KEY,
     resave: true,
     saveUninitialized: true
 }));
@@ -45,7 +45,6 @@ app.set("view engine", "handlebars");
 
 app.use("/api/products",productsRouter);
 app.use("/api/carts",cartsRouter);
-app.use("/chat",chatRouter);
 app.use("/api/sessions",sessionsRouter);
 app.use("/", viewsRouter);
 
@@ -58,7 +57,7 @@ app.get('*', (req, res) => {
 
 const serverExpress = app.listen(PORT,() => {console.log(`Server running on port ${PORT}`)});
 
-mongoose.connect('mongodb+srv://user:123@ecomerce.37i6wvl.mongodb.net/?retryWrites=true&w=majority&appName=AtlasApp').then(()=>console.log("Concetet to DB")).catch((error)=>{
+mongoose.connect(config.MONGO_URL).then(()=>console.log("Concetet to DB")).catch((error)=>{
     if(error){
         console.log("Cannot connect to DB: " + error);
         process.exit();
