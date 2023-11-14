@@ -2,6 +2,7 @@ import { Router } from "express";
 import viewsController from "../controllers/viewsController.js";
 export const router = Router();
 
+
 const auth=(req, res, next)=>{
     if(req.session.user){
         next()

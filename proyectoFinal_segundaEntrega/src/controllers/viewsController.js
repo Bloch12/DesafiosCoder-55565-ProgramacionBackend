@@ -94,7 +94,7 @@ async function getCartById (req,res){
     res.setHeader("Content-Type","text/html");
     let {cid} = req.params;
     try{
-        let cidValidation = await cartsService.validateCartId(cid);
+        let cidValidation = await cartsService.validateCartId(req.user.cart);
         if (cidValidation.error)
             return res.res.status(400).json({error:"Error - Cart id not found"})
 

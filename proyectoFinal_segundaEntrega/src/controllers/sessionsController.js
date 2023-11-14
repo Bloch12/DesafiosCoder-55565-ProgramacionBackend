@@ -1,4 +1,4 @@
-
+import {UserDTO} from "../dao/dto/user.dto"
 
 async function register(req, res){
     let {first_name,last_name,age, email, password,role} = req.body;
@@ -23,7 +23,8 @@ async function github (req,res){
 
 async function current (req, res) {
     res.setHeader('Content-Type', 'application/json');
-    res.status(200).json({user: req.session.user});
+    let user = new UserDTO(req.session.user);
+    res.status(200).json({user: user});
 }
 
 async function logout (req, res) {

@@ -1,17 +1,18 @@
 import { Router } from "express";
 import cartsController from "../controllers/cartsController.js";
+import { permit } from "../util.js";
 export const router = Router();
 
-router.post('/', cartsController.createCart);
+router.post('/',permit("user"),cartsController.createCart);
 
 router.get('/:cid', cartsController.getCartById);
         
-router.post('/:cid/product/:pid',  cartsController.addProductToCart);
+router.post('/:cid/product/:pid',permit("user"),cartsController.addProductToCart);
         
-router.delete('/:cid/products/:pid', cartsController.deleteProductFromCart);
+router.delete('/:cid/products/:pid',permit("user"), cartsController.deleteProductFromCart);
         
 router.put('/:cid',  cartsController.updateCart);
         
-router.put('/:cid/products/:pid', cartsController.updateAmountOfProductInCart);
+router.put('/:cid/products/:pid',permit("user"), cartsController.updateAmountOfProductInCart);
         
 router.delete('/:cid', cartsController.deleteCart);

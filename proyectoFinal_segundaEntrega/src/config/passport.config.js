@@ -5,6 +5,7 @@ import crypto from 'crypto';
 import { usersModel } from '../dao/models/users.model.js'
 import { createPassword } from '../util.js';
 import { isValidPassword } from '../util.js';
+import UserDTO from '../dao/dto/user.dto.js';
 
 
 export const inicializarPassport = () => {
@@ -24,7 +25,8 @@ export const inicializarPassport = () => {
                     return done(null, false, {message: "Error - Email already exist"});
                 password = createPassword(password);
                 
-                const user = await usersModel.create({first_name,last_name,age, email, password,role});
+                let newUser = new UserDTO({first_name,last_name,age, email, password,role})
+                const user = await usersModel.create(newUser);
                 return done(null, user);
             }catch(err){
                 return done(err);
@@ -42,13 +44,13 @@ export const inicializarPassport = () => {
             try {
                 let user=await usersModel.findOne({email:profile._json.email})
                     if(!user){
-                        let newUser={
+                        let newUser= new UserDTO({
                             first_name: profile._json.name,
                             last_name: "",
                             age: 18,
                             email: profile._json.email,
                             password: ""
-                        }
+                        })
                         let result = await usersModel.create(newUser)
                         done(null, result)
                     }else{
