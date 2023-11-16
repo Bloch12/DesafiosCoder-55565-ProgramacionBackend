@@ -1,4 +1,4 @@
-import {UserDTO} from "../dao/dto/user.dto"
+import UserDTO from "../dao/dto/user.dto.js"
 
 async function register(req, res){
     let {first_name,last_name,age, email, password,role} = req.body;

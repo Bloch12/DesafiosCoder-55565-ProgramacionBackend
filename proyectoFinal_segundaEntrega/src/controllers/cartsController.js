@@ -187,4 +187,53 @@ async function deleteCart(req, res) {
     }
 }
 
-export default { createCart, getCartById, addProductToCart, deleteProductFromCart, updateCart, updateAmountOfProductInCart, deleteCart };
+async function purchase(req,res){
+    res.setHeader("Content-Type","application/json");
+    let {cid} = req.params;
+
+    try{
+        let cidValidation = await cartsService.validateCartId(cid);
+        if (cidValidation.error)
+            return res.status(400);
+        
+        let products = cidValidation.cart.products;
+        let rejectedProducts = [];
+        
+        if(products.length == 0)
+            return res.status(400);
+
+        ticket = {purchaser: req.user.email, amount};
+        ticket.amount = 0;
+        products.forEach(async element => {
+            let pid = element.product;
+            let pidValidation = await productsService.validateProductId(pid);
+            if (pidValidation.error)
+                return res.status(400);
+            
+            let product = pidValidation.product;
+
+            if(product.stock < element.quantity){
+                rejectedProducts.push(element);
+            }else{
+                product.stock -= element.quantity;
+                ticket.amount += element.subtotal;
+                await productsService.updateProduct(pid, {stock: product.stock});
+            }
+        });
+
+        if(ticket.amount == 0)
+            return res.status(400);
+    
+        await cartsService.updateCart(cid, rejectedProducts);
+        
+        
+        ticket = await ticketsService.createTicket(ticket);
+        rejectedProducts.map(p => p = p.product);
+        return res.status(201).json({status: "success", msg: `Ticket created: ${ticket} \n Rejected products: ${rejectedProducts}`});
+
+    }catch(error){
+        res.status(500);
+    }
+}
+
+export default { createCart, getCartById, addProductToCart, deleteProductFromCart, updateCart, updateAmountOfProductInCart, deleteCart, purchase};

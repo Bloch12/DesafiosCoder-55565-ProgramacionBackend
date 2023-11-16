@@ -16,3 +16,5 @@ router.put('/:cid',  cartsController.updateCart);
 router.put('/:cid/products/:pid',permit("user"), cartsController.updateAmountOfProductInCart);
         
 router.delete('/:cid', cartsController.deleteCart);
+
+router.put('/:cid/purchase',permit("user"),cartsController.purchase);
