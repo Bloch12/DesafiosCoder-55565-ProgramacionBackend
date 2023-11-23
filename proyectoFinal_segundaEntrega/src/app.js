@@ -3,6 +3,7 @@ import {router as productsRouter} from "./routers/products.router.js";
 import {router as cartsRouter} from "./routers/carts.router.js";
 import {router as viewsRouter} from "./routers/views.router.js";
 import {router as sessionsRouter} from './routers/sessions.router.js';
+import {router as mockRouter} from './routers/mocks.router.js';
 import handlebars from 'express-handlebars';
 import __dirname from './util.js';
 import {Server} from 'socket.io'
@@ -12,6 +13,7 @@ import MongoStore from 'connect-mongo';
 import passport from 'passport';
 import { inicializarPassport} from './config/passport.config.js'
 import { config } from './config/dotenv.config.js';
+import {errorHandler} from './middlewares/errors/index.js';
 
 const PORT = config.PORT;
 
@@ -46,7 +48,10 @@ app.set("view engine", "handlebars");
 app.use("/api/products",productsRouter);
 app.use("/api/carts",cartsRouter);
 app.use("/api/sessions",sessionsRouter);
+app.use("/mockingproducts",mockRouter);
 app.use("/", viewsRouter);
+
+app.use(errorHandler);
 
 app.get('*', (req, res) => {
     res.setHeader("Content-Type", "text/plain");

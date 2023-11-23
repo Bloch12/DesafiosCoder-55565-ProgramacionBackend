@@ -1,5 +1,8 @@
 import { cartsService } from "../services/carts.service.js"
-import { productsService } from "../services/products.service.js"
+import { productsService } from "../services/products.service.js";
+import { CustomError } from "../services/errors/customError.js";
+import EErrors from "../services/errors/enums.js";
+import { addProductToCartError } from "../services/errors/info.js";
 
 
 async function getCartById(req,res){
@@ -57,11 +60,11 @@ async function addProductToCart(req,res) {
     try{
         let pidValidation = await productsService.validateProductId(pid);
         if (pidValidation.error)
-            return res.sendUserError(pidValidation.msg);
+            throw CustomError(pidValidation.msg,pidValidation,addProductToCartError(pid,cid),EErrors.INVALID_TYPES_ERROR);
 
         let cidValidation = await cartsService.validateCartId(cid);
         if (cidValidation.error)
-            return res.sendUserError(cidValidation.msg);
+            throw CustomError(cidValidation.msg,cidValidation,addProductToCartError(pid,cid),EErrors.INVALID_TYPES_ERROR);
 
         let product = pidValidation.product;
         let cart = cidValidation.cart;

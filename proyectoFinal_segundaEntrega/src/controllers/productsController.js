@@ -1,5 +1,8 @@
 import { productsService } from '../services/products.service.js';
 import {io} from "../app.js";
+import { CustomError } from '../services/errors/customError.js';
+import EErrors from '../services/errors/enums.js';
+import { generateProductsErrorInfo } from '../services/errors/info.js';
 
 let validateProps = (body, ...validator) => {
     let newProductProps = Object.keys(body);
@@ -83,7 +86,7 @@ async function postProduct(req, res) {
     let product = req.body;
 
     if (!validateProps(product, 'title', 'description', 'code', 'price', 'status', 'stock', 'category'))
-        return res.status(400);
+        throw CustomError("To less arguments", product, generateProductsErrorInfo(product),EErrors.INVALID_TYPES_ERROR);
 
     let codeProduct = await productsService.getProductByCode(product.code);
     if (codeProduct)

@@ -23,7 +23,7 @@ async function github (req,res){
 
 async function current (req, res) {
     res.setHeader('Content-Type', 'application/json');
-    let user = new UserDTO(req.session.user);
+    let user = req.session.user;
     res.status(200).json({user: user});
 }
 
