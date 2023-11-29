@@ -19,6 +19,17 @@ const auth2=(req, res, next)=>{
     }
 }
 
+router.get('/loggerTest',(req,res)=>{
+    req.logger.debug("Test - Debug message");
+    req.logger.http("Test - Http message");
+    req.logger.info("Test - Info message");
+    req.logger.warning("Test - Warning message");
+    req.logger.error("Test - Error message");
+    req.logger.fatal("Test - Fatal message");
+
+    res.send("Check the console");
+});
+
 router.get(viewsController.getHome);
 
 router.get("/products",auth,viewsController.getProducts);
@@ -32,6 +43,9 @@ router.get("/login",auth2,viewsController.getLogin);
 router.get("/registro",auth2,viewsController.getRegister);
 
 router.get("/perfil",viewsController.getProfile);
+
+
+
 
 
 

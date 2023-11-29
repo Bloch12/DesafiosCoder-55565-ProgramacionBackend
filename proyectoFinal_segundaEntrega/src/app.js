@@ -5,7 +5,7 @@ import {router as viewsRouter} from "./routers/views.router.js";
 import {router as sessionsRouter} from './routers/sessions.router.js';
 import {router as mockRouter} from './routers/mocks.router.js';
 import handlebars from 'express-handlebars';
-import __dirname from './util.js';
+import {__dirname,  middLogger } from './util.js';
 import {Server} from 'socket.io'
 import mongoose, { mongo } from 'mongoose';
 import session from 'express-session';
@@ -52,6 +52,7 @@ app.use("/mockingproducts",mockRouter);
 app.use("/", viewsRouter);
 
 app.use(errorHandler);
+app.use(middLogger);
 
 app.get('*', (req, res) => {
     res.setHeader("Content-Type", "text/plain");
