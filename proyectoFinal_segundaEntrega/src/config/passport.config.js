@@ -1,10 +1,8 @@
 import passport from 'passport';
 import local from 'passport-local';
 import github from 'passport-github2';
-import crypto from 'crypto';
 import { usersModel } from '../dao/models/users.model.js'
-import { createPassword } from '../util.js';
-import { isValidPassword } from '../util.js';
+import { createPassword, isValidPassword } from '../utils/util.js';
 import UserDTO from '../dao/dto/user.dto.js';
 
 

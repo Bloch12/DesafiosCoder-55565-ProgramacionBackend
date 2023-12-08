@@ -1,4 +1,4 @@
-import { createPassword } from "../../util.js";
+import { createPassword } from "../../utils/util.js";
 
 export default class UserDTO{
     constructor(user) {

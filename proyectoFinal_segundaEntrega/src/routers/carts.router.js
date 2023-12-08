@@ -1,6 +1,6 @@
 import { Router } from "express";
 import cartsController from "../controllers/cartsController.js";
-import { permit } from "../util.js";
+import { permit } from "../utils/util.js";
 export const router = Router();
 
 router.post('/',permit("user"),cartsController.createCart);

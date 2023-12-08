@@ -44,6 +44,10 @@ router.get("/registro",auth2,viewsController.getRegister);
 
 router.get("/perfil",viewsController.getProfile);
 
+router.get('/forgotPassword', auth2, viewsController.getForgotPassword);
+
+router.get('/restorePassword', auth2, viewsController.getRestorePassword);
+
 
 
 

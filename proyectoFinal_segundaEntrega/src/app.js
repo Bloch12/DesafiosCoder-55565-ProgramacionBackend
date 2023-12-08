@@ -4,8 +4,10 @@ import {router as cartsRouter} from "./routers/carts.router.js";
 import {router as viewsRouter} from "./routers/views.router.js";
 import {router as sessionsRouter} from './routers/sessions.router.js';
 import {router as mockRouter} from './routers/mocks.router.js';
+import {router as usersRouter} from './routers/users.router.js';
 import handlebars from 'express-handlebars';
-import {__dirname,  middLogger } from './util.js';
+import {__dirname } from './utils/util.js';
+import {middLogger} from './utils/logger.js';
 import {Server} from 'socket.io'
 import mongoose, { mongo } from 'mongoose';
 import session from 'express-session';
@@ -49,6 +51,7 @@ app.use("/api/products",productsRouter);
 app.use("/api/carts",cartsRouter);
 app.use("/api/sessions",sessionsRouter);
 app.use("/mockingproducts",mockRouter);
+app.use("/api/users",usersRouter);
 app.use("/", viewsRouter);
 
 app.use(errorHandler);

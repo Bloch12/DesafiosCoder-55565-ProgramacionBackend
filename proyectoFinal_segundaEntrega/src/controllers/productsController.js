@@ -95,6 +95,7 @@ async function postProduct(req, res) {
     product.price = parseFloat(product.price);
     product.status = !!product.status;
     product.stock = parseInt(product.stock);
+    product.owner = req.user._id;
 
     try {
         let newProduct = await productsService.createProduct(product);
@@ -124,6 +125,10 @@ async function putProduct(req, res) {
     let codeProduct = await productsService.getProductByCode(product.code);
     if (codeProduct)
         return res.status(500);
+
+    if (req.user.role === 'premium' && productToUpdate.owner !== req.user._id){
+        return res.status(401);
+    }
 
     if (product.price) {
         product.price = parseFloat(product.price);
@@ -160,6 +165,10 @@ async function deleteProduct(req, res) {
     let idValidation = await productsService.validateProductId(pid);
     if (idValidation.error)
         return res.status(400);
+
+    if(req.user.role === 'premium' && idValidation.product.owner !== req.user._id){
+        return res.status(401);
+    }
 
     try {
         let result = await productsService.deleteProduct(pid);

@@ -137,7 +137,16 @@ async function getProfile (req,res) {
     res.status(200).render("perfil",{title: "Perfil", userName: req.session.user.name, rol: req.session.user.role, email: req.session.user.email});
 }
 
-export default { getHome, getProfile, getProducts, getProductById, getCartById, getRegister, getLogin }
+async function getForgotPassword(req, res) {
+    res.renderSuccess("forgotPassword");
+}
+
+async function getRestorePassword(req, res) {
+    res.renderSuccess("restorePassword");
+}
+
+
+export default { getHome, getProfile, getProducts, getProductById, getCartById, getRegister, getLogin, getForgotPassword, getRestorePassword }
 
 
 

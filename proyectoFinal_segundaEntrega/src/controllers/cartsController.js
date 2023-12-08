@@ -69,6 +69,9 @@ async function addProductToCart(req,res) {
         let product = pidValidation.product;
         let cart = cidValidation.cart;
 
+        if(req.user.role === 'premium' && product.owner === req.user._id)
+            throw CustomError("You can't buy your own product",product,addProductToCartError(pid,cid),EErrors.INVALID_TYPES_ERROR);
+
         let resultado;
         let exist = await cartsService.getProductById(cid, pid);
         if(exist){

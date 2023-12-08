@@ -23,4 +23,11 @@ export class UsersMongoDAO {
         return await usersModel.create(user);
     }
 
+    async update(id, user) {
+        if(!mongoose.Types.ObjectId.isValid(id))
+            throw new Error('Invalid user ID.');
+
+        return await usersModel.updateOne({_id: id}, {$set: changes});
+    }
+
 }
