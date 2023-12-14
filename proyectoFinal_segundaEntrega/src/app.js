@@ -17,7 +17,24 @@ import { inicializarPassport} from './config/passport.config.js'
 import { config } from './config/dotenv.config.js';
 import {errorHandler} from './middlewares/errors/index.js';
 
+import swaggerJsdoc from "swagger-jsdoc";
+import swaggerUiExpress from "swagger-ui-express"
+
 const PORT = config.PORT;
+
+const swaggerOptions = {
+    definition: {
+        openapi: '3.0.1',
+        info: {
+            title: "e-commerce API - CoderHouse",
+            description: "Backend de un e-commerce como proyecto del curso de backend de CoderHouse"
+        }
+    },
+    apis: [`./docs/**/*.yaml`]
+}
+
+const specs = swaggerJsdoc(swaggerOptions);
+
 
 const app = express();
 
@@ -52,6 +69,7 @@ app.use("/api/carts",cartsRouter);
 app.use("/api/sessions",sessionsRouter);
 app.use("/mockingproducts",mockRouter);
 app.use("/api/users",usersRouter);
+app.use('/apidocs', swaggerUiExpress.serve, swaggerUiExpress.setup(specs));
 app.use("/", viewsRouter);
 
 app.use(errorHandler);
