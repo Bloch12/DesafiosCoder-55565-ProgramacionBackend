@@ -134,7 +134,8 @@ async function getRegister(req,res) {
 
 async function getProfile (req,res) {
     res.setHeader("Content-Type","text/html");
-    res.status(200).render("perfil",{title: "Perfil", userName: req.session.user.name, rol: req.session.user.role, email: req.session.user.email});
+    res.status(200).render("perfil",{title: "Perfil", userName: req.session.user.name, rol: req.session.user.role, email: req.session.user.email,  cart: req.user.cart._id,
+    uid: req.user._id});
 }
 
 async function getForgotPassword(req, res) {
