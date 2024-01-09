@@ -1,5 +1,5 @@
 import supertest from "supertest";
-import chai from "chai";
+import * as chai from "chai";
 
 const expect = chai.expect;
 const request = supertest("http://localhost:8080");

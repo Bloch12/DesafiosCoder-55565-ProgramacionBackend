@@ -1,21 +1,28 @@
 import express from "express";
+
 import {router as productsRouter} from "./routers/products.router.js";
 import {router as cartsRouter} from "./routers/carts.router.js";
 import {router as viewsRouter} from "./routers/views.router.js";
 import {router as sessionsRouter} from './routers/sessions.router.js';
 import {router as mockRouter} from './routers/mocks.router.js';
 import {router as usersRouter} from './routers/users.router.js';
+
+import { inicializarPassport} from './config/passport.config.js'
+import passport from 'passport';
+
 import handlebars from 'express-handlebars';
 import {__dirname } from './utils/util.js';
 import {middLogger} from './utils/logger.js';
 import {Server} from 'socket.io'
 import mongoose, { mongo } from 'mongoose';
-import session from 'express-session';
-import MongoStore from 'connect-mongo';
-import passport from 'passport';
-import { inicializarPassport} from './config/passport.config.js'
 import { config } from './config/dotenv.config.js';
 import {errorHandler} from './middlewares/errors/index.js';
+import session from 'express-session';
+import MongoStore from 'connect-mongo';
+
+
+
+
 
 import swaggerJsdoc from "swagger-jsdoc";
 import swaggerUiExpress from "swagger-ui-express"
